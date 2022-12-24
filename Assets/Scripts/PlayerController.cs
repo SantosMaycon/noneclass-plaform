@@ -17,6 +17,12 @@ public class PlayerController : MonoBehaviour {
 
   private void move () {
     float horizontal = Input.GetAxis("Horizontal");
+
+    if (horizontal != 0f) {
+      float directionFlip = Mathf.Sign(horizontal); // return -1 to negative value or 1 to positive value
+      transform.localScale = new Vector3(directionFlip, transform.localScale.y, transform.localScale.z); 
+    }
+
     float velocity = horizontal * speed;
     rigidbody2d.velocity = new Vector2(velocity, rigidbody2d.velocity.y);
   }
