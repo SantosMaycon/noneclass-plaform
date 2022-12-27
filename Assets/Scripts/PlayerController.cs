@@ -6,6 +6,8 @@ public class PlayerController : MonoBehaviour {
   [SerializeField] private float speed;
   [SerializeField] private float jumpForce;
   [SerializeField] private int amountOfJump = 1;
+  [SerializeField] private BoxCollider2D boxCollider2d;
+  [SerializeField] private LayerMask levelLayer;
   private Rigidbody2D rigidbody2d;
   private Animator animator;
   private int totalOfJump;
@@ -13,6 +15,7 @@ public class PlayerController : MonoBehaviour {
   void Start() {
     rigidbody2d = GetComponent<Rigidbody2D>();
     animator = GetComponent<Animator>();
+    boxCollider2d = GetComponent<BoxCollider2D>();
     totalOfJump = amountOfJump;
   }
 
@@ -20,6 +23,14 @@ public class PlayerController : MonoBehaviour {
   void Update() {
     move();
     jump();
+  }
+
+  private void FixedUpdate() {
+    animator.SetBool("isOnTheFloor", isGrounded());
+
+    if (isGrounded()) {
+      amountOfJump = totalOfJump;
+    }
   }
 
   private void move() {
@@ -46,17 +57,7 @@ public class PlayerController : MonoBehaviour {
     }
   }
 
-  private void OnCollisionEnter2D(Collision2D other) {
-    if (other.gameObject.CompareTag("Floor")) {
-      animator.SetBool("isOnTheFloor", true);
-      amountOfJump = totalOfJump;
-    }
-  }
-
-  private void OnCollisionExit2D(Collision2D other) {
-    if (other.gameObject.CompareTag("Floor")) {
-      animator.SetBool("isOnTheFloor", false);
-      Debug.Log("Is not on the floor");
-    }
+  private bool isGrounded() {
+    return Physics2D.Raycast(boxCollider2d.bounds.center, Vector2.down, 0.5f, levelLayer);
   }
 }
