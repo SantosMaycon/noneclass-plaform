@@ -60,4 +60,14 @@ public class PlayerController : MonoBehaviour {
   private bool isGrounded() {
     return Physics2D.Raycast(boxCollider2d.bounds.center, Vector2.down, 0.5f, levelLayer);
   }
+
+  private void OnTriggerEnter2D(Collider2D other) {
+    if (other.CompareTag("Enemy")) {
+      var hitTheHead = transform.position.y > other.transform.position.y + .2f;
+      if (hitTheHead) {
+        rigidbody2d.velocity = new Vector2(rigidbody2d.velocity.x, jumpForce);
+        animator.SetBool("isOnTheFloor", false);
+      }
+    }
+  }
 }
