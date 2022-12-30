@@ -9,12 +9,14 @@ public class PigController : MonoBehaviour {
   private Rigidbody2D rigidbody2d;
   private Animator animator;
   private BoxCollider2D boxCollider2d;
+  [SerializeField] private GameObject collision;
   private bool isStopped = false;
   // Start is called before the first frame update
   void Start() {
     rigidbody2d = GetComponent<Rigidbody2D>();
     animator = GetComponent<Animator>();
     boxCollider2d = GetComponent<BoxCollider2D>();
+    collision = gameObject.transform.GetChild(0)?.gameObject;
   }
 
   // Update is called once per frame
@@ -52,12 +54,12 @@ public class PigController : MonoBehaviour {
   }
 
   public void killPig() {
-    Transform collision = gameObject.transform.GetChild(0);
     if (collision && animator) {
       isStopped = true;
       animator.SetTrigger("hit");
       collision.gameObject.SetActive(false);
       rigidbody2d.velocity = new Vector2(0, rigidbody2d.velocity.y);
+      Destroy(gameObject, 2f);
     }
   }
 }
