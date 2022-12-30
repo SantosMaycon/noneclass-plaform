@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
+  [SerializeField] private int life;
+  [SerializeField] private float invincibilityTime;
   [SerializeField] private float speed;
   [SerializeField] private float jumpForce;
   [SerializeField] private int amountOfJump = 1;
-  [SerializeField] private BoxCollider2D boxCollider2d;
   [SerializeField] private LayerMask levelLayer;
   private Rigidbody2D rigidbody2d;
+  private BoxCollider2D boxCollider2d;
   private Animator animator;
   private int totalOfJump;
+  private float counterInvincibilityTime = 0;
+
   // Start is called before the first frame update
   void Start() {
     rigidbody2d = GetComponent<Rigidbody2D>();
@@ -23,6 +27,10 @@ public class PlayerController : MonoBehaviour {
   void Update() {
     move();
     jump();
+
+    if (counterInvincibilityTime > 0f) {
+      counterInvincibilityTime -= Time.deltaTime;
+    }
   }
 
   private void FixedUpdate() {
@@ -37,7 +45,7 @@ public class PlayerController : MonoBehaviour {
     float horizontal = Input.GetAxis("Horizontal");
 
     if (horizontal != 0f) {
-      float directionFlip = Mathf.Sign(horizontal); // return -1 to negative value or 1 to positive value
+      float directionFlip = Mathf.Sign(horizontal); // return -1 to negative value or 1 to zero or positive value
       transform.localScale = new Vector3(directionFlip, transform.localScale.y, transform.localScale.z); 
     }
 
@@ -67,6 +75,12 @@ public class PlayerController : MonoBehaviour {
       if (hitTheHead) {
         rigidbody2d.velocity = new Vector2(rigidbody2d.velocity.x, jumpForce);
         animator.SetBool("isOnTheFloor", false);
+
+        // Die animation of pig
+        other.gameObject.GetComponentInParent<PigController>()?.killPig();
+      } else if (counterInvincibilityTime <= 0) {
+        life--;
+        counterInvincibilityTime = invincibilityTime;
       }
     }
   }

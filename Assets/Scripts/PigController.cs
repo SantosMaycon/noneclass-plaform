@@ -9,6 +9,7 @@ public class PigController : MonoBehaviour {
   private Rigidbody2D rigidbody2d;
   private Animator animator;
   private BoxCollider2D boxCollider2d;
+  private bool isStopped = false;
   // Start is called before the first frame update
   void Start() {
     rigidbody2d = GetComponent<Rigidbody2D>();
@@ -18,13 +19,15 @@ public class PigController : MonoBehaviour {
 
   // Update is called once per frame
   void Update() {
-    move();
+    if (!isStopped) {
+      move();
+    }
   }
 
   private void FixedUpdate() {
     if (hitTheWall()) {
       rigidbody2d.velocity = new Vector2(rigidbody2d.velocity.x * -1f, rigidbody2d.velocity.y);
-      transform.localScale = new Vector3(Mathf.Sign(rigidbody2d.velocity.x) * -1, 1f, 1f);  
+      transform.localScale = new Vector3(Mathf.Sign(rigidbody2d.velocity.x) * -1, 1f, 1f);
     }
   }
 
@@ -37,14 +40,24 @@ public class PigController : MonoBehaviour {
       var direction = Random.Range(-1, 2);
       rigidbody2d.velocity = new Vector2(speed * direction, rigidbody2d.velocity.y);
       animator.SetBool("isMove", rigidbody2d.velocity.x != 0);
-      
+
       if (rigidbody2d.velocity.x != 0) {
-        transform.localScale = new Vector3(Mathf.Sign(rigidbody2d.velocity.x) * -1, 1f, 1f);  
+        transform.localScale = new Vector3(Mathf.Sign(rigidbody2d.velocity.x) * -1, 1f, 1f);
       }
 
       timeToWalk = Random.Range(2f, 8f);
     } else {
       timeToWalk -= Time.deltaTime;
     }
-  } 
+  }
+
+  public void killPig() {
+    Transform collision = gameObject.transform.GetChild(0);
+    if (collision && animator) {
+      isStopped = true;
+      animator.SetTrigger("hit");
+      collision.gameObject.SetActive(false);
+      rigidbody2d.velocity = new Vector2(0, rigidbody2d.velocity.y);
+    }
+  }
 }
