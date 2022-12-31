@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour {
   private Animator animator;
   private int totalOfJump;
   private float counterInvincibilityTime = 0;
+  private bool isStopped = false;
 
   // Start is called before the first frame update
   void Start() {
@@ -25,8 +26,10 @@ public class PlayerController : MonoBehaviour {
 
   // Update is called once per frame
   void Update() {
-    move();
-    jump();
+    if (!isStopped) {
+      move();
+      jump();
+    }
 
     if (counterInvincibilityTime > 0f) {
       counterInvincibilityTime -= Time.deltaTime;
@@ -79,8 +82,14 @@ public class PlayerController : MonoBehaviour {
         // Die animation of pig
         other.gameObject.GetComponentInParent<PigController>()?.killPig();
       } else if (counterInvincibilityTime <= 0) {
-        life--;
+        animator.SetTrigger("hit");
+        animator.SetInteger("life", --life);
         counterInvincibilityTime = invincibilityTime;
+
+        if (life <= -1) {
+          isStopped = true;
+          rigidbody2d.velocity = new Vector2(0f, rigidbody2d.velocity.y);
+        }
       }
     }
   }

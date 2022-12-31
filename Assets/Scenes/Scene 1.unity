@@ -1015,7 +1015,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   life: 3
-  invincibilityTime: 6
+  invincibilityTime: 3
   speed: 5
   jumpForce: 6
   amountOfJump: 1
@@ -8017,6 +8017,7 @@ MonoBehaviour:
   levelLayer:
     serializedVersion: 2
     m_Bits: 256
+  collision: {fileID: 0}
 --- !u!50 &1890418210
 Rigidbody2D:
   serializedVersion: 4
