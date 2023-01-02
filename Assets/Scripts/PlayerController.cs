@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour {
   [SerializeField] private float jumpForce;
   [SerializeField] private int amountOfJump = 1;
   [SerializeField] private LayerMask levelLayer;
+  [SerializeField] private DoorController door;
   private Rigidbody2D rigidbody2d;
   private BoxCollider2D boxCollider2d;
   private Animator animator;
@@ -29,6 +30,7 @@ public class PlayerController : MonoBehaviour {
     if (!isStopped) {
       move();
       jump();
+      onOpenTheDoor();
     }
 
     if (counterInvincibilityTime > 0f) {
@@ -81,16 +83,42 @@ public class PlayerController : MonoBehaviour {
 
         // Die animation of pig
         other.gameObject.GetComponentInParent<PigController>()?.killPig();
-      } else if (counterInvincibilityTime <= 0) {
+      } else if (counterInvincibilityTime <= 0 && !isStopped) {
         animator.SetTrigger("hit");
         animator.SetInteger("life", --life);
         counterInvincibilityTime = invincibilityTime;
 
         if (life <= -1) {
-          isStopped = true;
-          rigidbody2d.velocity = new Vector2(0f, rigidbody2d.velocity.y);
+          onStop();
         }
       }
     }
+
+    if (other.CompareTag("Door")) {
+      door = other.GetComponent<DoorController>();
+    }
+  }
+
+  private void OnTriggerExit2D(Collider2D other) {
+    if (other.CompareTag("Door")) {
+      door = null;
+    }
+  }
+
+  private void onStop() {
+    isStopped = true;
+    rigidbody2d.velocity = new Vector2(0f, rigidbody2d.velocity.y);
+  }
+
+  private void onOpenTheDoor() {
+    if (Input.GetKeyUp(KeyCode.UpArrow) && rigidbody2d.velocity.x == 0) {
+      onStop();
+      door?.opening();
+      Invoke("crossingToTheDoor", 1f);
+    }
+  }
+
+  private void crossingToTheDoor() {
+    animator.SetTrigger("door in");
   }
 }
