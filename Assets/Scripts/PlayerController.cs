@@ -111,7 +111,7 @@ public class PlayerController : MonoBehaviour {
   }
 
   private void onOpenTheDoor() {
-    if (Input.GetKeyUp(KeyCode.UpArrow) && rigidbody2d.velocity.x == 0) {
+    if (Input.GetKeyUp(KeyCode.UpArrow) && rigidbody2d.velocity.x == 0 && door.canOpen) {
       onStop();
       door?.opening();
       Invoke("crossingToTheDoor", 1f);

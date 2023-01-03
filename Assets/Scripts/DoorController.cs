@@ -7,10 +7,12 @@ public class DoorController : MonoBehaviour {
   private GameManager gameManager;
 
   private Animator animator;
+  public bool canOpen;
   // Start is called before the first frame update
   void Start() {
     animator = GetComponent<Animator>();
     gameManager = FindObjectOfType<GameManager>();
+    canOpen = destination != null ? false : true;
   }
 
   // Update is called once per frame
