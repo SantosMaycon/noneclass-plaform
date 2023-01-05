@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour {
         counterInvincibilityTime = invincibilityTime;
 
         gameManager?.setLifeOfPlayer(life);
-        
+
         if (life <= -1) {
           onStop();
         }
@@ -132,5 +132,9 @@ public class PlayerController : MonoBehaviour {
 
   public int getLife () {
     return life;
+  }
+
+  public void dead() {
+    gameManager?.resetGame();
   }
 }

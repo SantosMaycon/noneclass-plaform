@@ -18,6 +18,11 @@ public class GameManager : MonoBehaviour {
   public void setLifeOfPlayer(int life) {
     lifeOfPlayer = life;
   }
+
+  public void resetGame() {
+    lifeOfPlayer = 3;
+    changeScene("Scene 1");
+  }
   public void changeScene(string scene) {
     SceneManager.LoadScene(scene);
   }
