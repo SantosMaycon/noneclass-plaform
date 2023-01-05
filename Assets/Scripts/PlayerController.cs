@@ -16,13 +16,19 @@ public class PlayerController : MonoBehaviour {
   private int totalOfJump;
   private float counterInvincibilityTime = 0;
   private bool isStopped = false;
-
+  private GameManager gameManager;
   // Start is called before the first frame update
   void Start() {
     rigidbody2d = GetComponent<Rigidbody2D>();
     animator = GetComponent<Animator>();
     boxCollider2d = GetComponent<BoxCollider2D>();
     totalOfJump = amountOfJump;
+    
+    gameManager = FindObjectOfType<GameManager>();
+    
+    if (gameManager) {
+      life = gameManager.getLifeOfPlayer();
+    }
   }
 
   // Update is called once per frame
@@ -88,6 +94,8 @@ public class PlayerController : MonoBehaviour {
         animator.SetInteger("life", --life);
         counterInvincibilityTime = invincibilityTime;
 
+        gameManager?.setLifeOfPlayer(life);
+        
         if (life <= -1) {
           onStop();
         }
@@ -120,5 +128,9 @@ public class PlayerController : MonoBehaviour {
 
   private void crossingToTheDoor() {
     animator.SetTrigger("door in");
+  }
+
+  public int getLife () {
+    return life;
   }
 }

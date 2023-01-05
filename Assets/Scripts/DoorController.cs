@@ -12,7 +12,7 @@ public class DoorController : MonoBehaviour {
   void Start() {
     animator = GetComponent<Animator>();
     gameManager = FindObjectOfType<GameManager>();
-    canOpen = destination != null ? false : true;
+    canOpen = destination != "" ? true : false;
   }
 
   // Update is called once per frame
@@ -27,7 +27,7 @@ public class DoorController : MonoBehaviour {
   }
 
   public void onDestination() {
-    if (destination != null) {
+    if (canOpen) {
       gameManager.changeScene(destination);
     }
   }
