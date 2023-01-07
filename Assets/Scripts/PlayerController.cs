@@ -95,6 +95,7 @@ public class PlayerController : MonoBehaviour {
         counterInvincibilityTime = invincibilityTime;
 
         gameManager?.setLifeOfPlayer(life);
+        gameManager?.printHeartsOnScreen();
 
         if (life <= -1) {
           onStop();
