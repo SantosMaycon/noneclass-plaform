@@ -474,10 +474,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1077639594854978189, guid: 55eec7dc899bf854caca95d2966eb6c9, type: 3}
-      propertyPath: destination
-      value: Scene 2
-      objectReference: {fileID: 0}
     - target: {fileID: 1077639594854978194, guid: 55eec7dc899bf854caca95d2966eb6c9, type: 3}
       propertyPath: m_Name
       value: Door
@@ -616,6 +612,14 @@ PrefabInstance:
     - target: {fileID: 5533941556135385082, guid: 4adfe6cdf69130142a8ab43c5c032d18, type: 3}
       propertyPath: m_Color.a
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5533941556135385082, guid: 4adfe6cdf69130142a8ab43c5c032d18, type: 3}
+      propertyPath: m_SortingLayer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5533941556135385082, guid: 4adfe6cdf69130142a8ab43c5c032d18, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1620057417
       objectReference: {fileID: 0}
     - target: {fileID: 5533941556135385083, guid: 4adfe6cdf69130142a8ab43c5c032d18, type: 3}
       propertyPath: m_RootOrder

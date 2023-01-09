@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour {
   private void FixedUpdate() {
     animator.SetBool("isOnTheFloor", isGrounded());
 
-    if (isGrounded()) {
+    if (isGrounded() && rigidbody2d.velocity.y < 0.1f) {
       amountOfJump = totalOfJump;
     }
   }
